@@ -5,21 +5,22 @@ Convert .cdr and .plt files to .svg
 
 Problem: nothing exist in linux world, that able to convert cdr to .svg without errors.
 
-= Option 1
-
+Option 1
+--------
 /usr/bin/libreoffice --headless --convert-to svg file.cdr
 
 Usually not works (but with GUI all fine).
 
-= Option 2
+Option 2
+--------
 
 /usr/bin/libreoffice --headless --convert-to eps file.cdr
 /usr/bin/gs -sDEVICE=svg -dBATCH -dNOPAUSE -sOutputFile=file.svg file.eps
 
 Works good, but result .svg is B&W and coorinates in file looks for me very strange
 
-= Option 3
-
+Option 3
+--------
 Install xvfb, libreoffice, and some GUI-testing tool. Make script like "open file, export to svg, close file".
 
 So here is step-by step instruction. I use OpenVZ, so you warned ;)
@@ -76,4 +77,18 @@ DISPLAY=:0 python ./test.py
 
 cd /var/www/convert/chmod +x conv
 
-= How it works
+How it works
+------------
+
+conv just looking for /tmp/1.cdr, after it appears, it copy to /root
+and ask xpresser to open file, export them to 1.svg and close.
+
+after that i call normalize.php, that fix result svg (row and height set properley)
+and remove any text
+
+WARNING: normalize.php REMOVE text in .svg. I need it ;)
+
+thats all ;) yep it very buggy and stupid, but allow me to convert
+MANY .cdr files to .svg
+
+Have fun!
