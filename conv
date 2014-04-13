@@ -1,0 +1,18 @@
+#!/bin/bash
+rm /tmp/1.svg
+rm /tmp/convert_stop
+cd /var/www/convert/
+
+while [ ! -f /tmp/convert_stop ]; do
+
+while [ ! -f /tmp/1.cdr ]; do
+    sleep 1
+done
+cp -f /tmp/1.cdr /root/1.cdr
+rm /tmp/1.cdr
+DISPLAY=:0 python ./test.py
+php ./normalize.php
+mv -f /root/1.svg /tmp/1.svg
+chmod 666 /tmp/1.svg
+chown www-data:www-data /tmp/1.svg
+done
